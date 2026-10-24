@@ -1,0 +1,16 @@
+# Template file for 'bustd'
+pkgname=bustd
+version=0.1.1
+revision=2
+build_style=cargo
+short_desc="Lightweight process killer daemon for out-of-memory scenarios"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="MIT"
+homepage="https://github.com/vrmiguel/bustd/"
+distfiles="https://github.com/vrmiguel/bustd/archive/780f25887b9d733aa27da9ea2262f3aca8838bf3.tar.gz"
+checksum=bc4a84e6031a8a20769ab3008cbb1489bcefcb0b7acf21603c82a24f5d9eb8f5
+
+post_install() {
+	vsv bustd
+	vlicense LICENSE
+}

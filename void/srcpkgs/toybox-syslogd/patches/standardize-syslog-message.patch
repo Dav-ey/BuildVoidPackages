@@ -1,0 +1,24 @@
+diff --git a/toys/pending/klogd.c b/toys/pending/klogd.c
+index 8ea8a48f..81a2d004 100644
+--- a/toys/pending/klogd.c
++++ b/toys/pending/klogd.c
+@@ -49,7 +49,7 @@ static void handle_signal(int sig)
+     if (FLAG(c)) set_log_level(7);
+     xclose(TT.fd);
+   }
+-  syslog(LOG_NOTICE, "KLOGD: Daemon exiting......");
++  syslog(LOG_NOTICE, "klogd exiting");
+ 
+   toys.exitval = 1;
+   xexit();
+@@ -67,8 +67,8 @@ void klogd_main(void)
+   if (FLAG(c)) set_log_level(TT.level);    //set log level
+ 
+   if (!FLAG(s)) TT.fd = xopenro("/proc/kmsg"); //_PATH_KLOG in paths.h
+-  syslog(LOG_NOTICE, "KLOGD: started with %s as log source\n",
+-    FLAG(s) ? "Kernel ring buffer" : "/proc/kmsg");
++  syslog(LOG_NOTICE, "klogd started with %s as log source\n",
++    FLAG(s) ? "kernel ring buffer" : "/proc/kmsg");
+   openlog("Kernel", 0, LOG_KERN);    //open connection to system logger..
+ 
+   for (;;) {

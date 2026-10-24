@@ -1,0 +1,48 @@
+diff --git a/toys/pending/syslogd.c b/toys/pending/syslogd.c
+index 43ccd9b2..6a844c38 100644
+--- a/toys/pending/syslogd.c
++++ b/toys/pending/syslogd.c
+@@ -479,7 +479,7 @@ init_jumpin:
+   }
+   xpidfile("syslogd");
+ 
+-  logmsg("<46>Toybox: syslogd started", 27); //27 : the length of message
++  logmsg("<46>toybox: syslogd started\n", 28); //28 : the length of message
+   for (;;) {
+     // Add opened socks to rfds for select()
+     FD_ZERO(&rfds);
+@@ -492,7 +492,7 @@ init_jumpin:
+     if (retval < 0) {
+       if (errno != EINTR) perror_msg("Error in select ");
+     }
+-    else if (!retval) logmsg("<46>-- MARK --", 14);
++    else if (!retval) logmsg("<46>-- MARK --\n", 15);
+     else if (FD_ISSET(TT.sigfd[0], &rfds)) { /* May be a signal */
+       unsigned char sig;
+ 
+@@ -504,7 +504,7 @@ init_jumpin:
+         case SIGTERM:    /* FALLTHROUGH */
+         case SIGINT:     /* FALLTHROUGH */
+         case SIGQUIT:
+-          logmsg("<46>syslogd exiting", 19);
++          logmsg("<46>toybox: syslogd exiting\n", 28);
+           if (CFG_TOYBOX_FREE ) cleanup();
+           signal(sig, SIG_DFL);
+           sigset_t ss;
+@@ -515,7 +515,7 @@ init_jumpin:
+           _exit(1);  /* Should not reach it */
+           break;
+         case SIGHUP:
+-          logmsg("<46>syslogd exiting", 19);
++          logmsg("<46>toybox: syslogd exiting\n", 28);
+           cleanup(); //cleanup is done, as we restart syslog.
+           goto init_jumpin;
+         default: break;
+@@ -551,6 +551,6 @@ init_jumpin:
+     }
+   }
+ clean_and_exit:
+-  logmsg("<46>syslogd exiting", 19);
++  logmsg("<46>toybox: syslogd exiting\n", 28);
+   if (CFG_TOYBOX_FREE ) cleanup();
+ }

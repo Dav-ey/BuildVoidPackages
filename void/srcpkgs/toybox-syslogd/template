@@ -1,0 +1,56 @@
+# Template file for 'toybox-syslogd'
+pkgname=toybox-syslogd
+version=0.8.15
+revision=1
+short_desc="Provides syslogd and klogd using toybox"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="0BSD"
+homepage="http://www.landley.net/toybox/"
+changelog="https://www.landley.net/toybox/news.html"
+distfiles="http://www.landley.net/toybox/downloads/toybox-${version}.tar.gz"
+checksum=44e2bab43dfe2c171743297631ce558c6d9ed38b87a66fd751cef617574b375e
+
+if [ "$XBPS_TARGET_LIBC" = "glibc" ]; then
+	makedepends+=" libxcrypt-devel"
+fi
+
+do_configure() {
+	cp -f "${FILESDIR}/dotconfig" ".config"
+}
+
+do_build() {
+	export NOSTRIP=1
+	scripts/single.sh klogd syslogd
+}
+
+pre_check() {
+	# XXX: Some tests for du, ls and tar fail, depending on filesystem and the environment
+	rm -f tests/du.test
+	rm -f tests/ls.test
+	rm -f tests/tar.test
+	rm -f tests/sed.test # musl: FAIL: sed s after NUL
+	rm -f tests/devmem.test # musl: FAIL: devmem read 8
+	[ "$XBPS_BUILD_ENVIRONMENT" != void-packages-ci ] && return 0
+	# XXX: chattr, hostname,losetup, rmdir tests fail on CI
+	rm tests/chattr.test
+	rm tests/hostname.test
+	rm tests/losetup.test
+	rm tests/rmdir.test
+	rm tests/rm.test
+}
+
+do_check() {
+	export USER=$(id -un)
+	msg_normal "Running tests for toybox...\n"
+	make tests
+}
+
+do_install() {
+	vbin klogd
+	vbin syslogd
+	vsv klogd
+	vsv syslogd
+	rm -r "$DESTDIR/etc/sv/klogd/log"
+	rm -r "$DESTDIR/etc/sv/syslogd/log"
+	vlicense LICENSE
+}
