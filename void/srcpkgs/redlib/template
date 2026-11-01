@@ -1,0 +1,17 @@
+# Template file for 'redlib'
+pkgname=redlib
+version=0.40.0
+revision=1
+build_style=cargo
+hostmakedepends="pkg-config cmake libunwind-devel clang"
+makedepends="libzstd-devel"
+short_desc="An alternative private front-end to Reddit, with its origins in Libreddit"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="AGPL-3.0-only"
+homepage="https://github.com/Sparronator9999/redlib/"
+distfiles="https://github.com/Sparronator9999/redlib/archive/5d41394755b3cd3e6bfb0c22e1536d3fedcbf61b.tar.gz"
+checksum=6ae718fd76571065c7833b5da8330c372f123aa9bf3e2d0462af62e09ae293e7
+
+post_install() {
+	vlicense LICENSE
+}
