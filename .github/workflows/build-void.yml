@@ -22,8 +22,7 @@ jobs:
       - name: Find all Void Linux packages
         id: find-packages
         run: |
-          find void/srcpkgs -mindepth 1 -maxdepth 1 \
-            | sed 's|^void/srcpkgs/||' \
+          find void -mindepth 1 -maxdepth 1 -printf '%f\n' \
             | jq -R \
             | jq -cs '{ "package": . }' \
             > matrix.json
@@ -61,12 +60,12 @@ jobs:
 
       - name: Configure repository
         run: |
-          cat local-packages/void/common/shlibs >> void-packages/common/shlibs
-          for pkg in local-packages/void/srcpkgs/*; do
-            if [ -e "void-packages/srcpkgs/$(basename $pkg)" ]; then
-              rm -rf "void-packages/srcpkgs/$(basename $pkg)"
+          for pkg in local-packages/void/*; do
+            rm -rf "void-packages/srcpkgs/$(basename $pkg)"
+            cp -r "$pkg" void-packages/srcpkgs/
+            if [ -f "$pkg/shlib" ]; then
+              cat "$pkg/shlib" >> void-packages/common/shlibs
             fi
-            cp -r $pkg void-packages/srcpkgs/
           done
           (
             cd void-packages
