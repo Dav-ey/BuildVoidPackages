@@ -1,0 +1,35 @@
+diff --git a/static/style.css b/static/style.css
+index 24dfaad..91837f1 100644
+--- a/static/style.css
++++ b/static/style.css
+@@ -1355,14 +1355,14 @@ a.search_subreddit:hover .search_subreddit_name {
+ 	display: grid;
+ 	transition: 0.2s background;
+ 	grid-template:
+-		"post_header post_thumbnail" auto
+-		"post_title  post_thumbnail" 1fr
+-		"post_media  post_thumbnail" auto
+-		"post_body   post_thumbnail" auto
+-		"post_poll   post_thumbnail" auto
+-		"post_notification post_thumbnail" auto
+-		"post_footer post_thumbnail" auto
+-		/ minmax(0, 1fr) fit-content(min(20%, 152px));
++		"post_thumbnail post_header" auto
++		"post_thumbnail post_title"  1fr
++		"post_thumbnail post_media"  auto
++		"post_thumbnail post_body"   auto
++		"post_thumbnail post_poll"   auto
++		"post_thumbnail post_notification" auto
++		"post_thumbnail post_footer" auto
++		/ fit-content(min(20%, 152px)) minmax(0, 1fr);
+ }
+ 
+ .post:not(:last-child) {
+@@ -1379,7 +1379,6 @@ a.search_subreddit:hover .search_subreddit_name {
+ 	color: var(--accent);
+ 	text-align: center;
+ 	transition: 0.2s background;
+-	margin-right: 10px;
+ 	display: inline-block;
+ 	width: 34px;
+ }
